@@ -3,14 +3,93 @@ const mongoose = require("mongoose");
 
 // Get all tasks
 const getTasks = async (req, res) => {
-  // const user_id = req.user._id;
-  const tasks = await Task.find({});
+  try {
+    const page = parseInt(req.query.page) - 1 || 0;
+    const limit = parseInt(req.query.limit) || 5;
+    const search = req.query.search || "";
+    let sort = req.query.sort || "taskId";
+    let statusIds = req.query.status_ids || "All";
+    let categoryIds = req.query.category_ids || "All";
 
-  // const tasks = await Task
-  // .find({ userId: user_id })
-  // .sort({ createdAt: -1 });
+    const categoryOptions = [
+      { id: "work", value: "Work" },
+      { id: "personal", value: "Personal" },
+      { id: "shopping", value: "Shopping" },
+      { id: "home", value: "Home" },
+      { id: "other", value: "Other" },
+    ];
 
-  res.status(200).json(tasks);
+    const statusOptions = [
+      { id: "todo", value: "To Do" },
+      { id: "inprogress", value: "In Progress" },
+      { id: "completed", value: "Completed" },
+    ];
+
+    const getCategory = (categoryIds) => {
+      if (categoryIds === "All") {
+        return categoryOptions.map((category) => category.value);
+      } else {
+        const categories = categoryIds.split(",").map((id) => {
+          return categoryOptions.find((category) => category.id === id).value;
+        });
+      }
+    };
+
+    const getStatus = (statusIds) => {
+      if (statusIds === "All") {
+        return statusOptions.map((status) => status.value);
+      } else {
+        const statuses = statusIds.split(",").map((id) => {
+          return statusOptions.find((status) => status.id === id).value;
+        });
+      }
+    };
+
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+    let sortBy = {};
+    if (sort[1]) {
+      sortBy[sort[0]] = sort[1];
+    } else {
+      sortBy[sort[0]] = "asc";
+    }
+
+    console.log({ categories: getStatus(statusIds) });
+    // const user_id = req.user._id;
+    const tasks = await Task.find({ title: { $regex: search, $options: "i" } })
+      // .where("category")
+      // .in(getCategory(categoryIds))
+      // .where("status")
+      // .in(getStatus(statusIds))
+      .sort(sortBy)
+      .skip(page * limit)
+      .limit(limit);
+
+    // const tasks = await Task
+    // .find({ userId: user_id })
+    // .sort({ createdAt: -1 });
+
+    const total = await Task.countDocuments({
+      // category: { $in: [...getCategory(categoryIds)] },
+      // status: { $in: [...getStatus(statusIds)] },
+      title: { $regex: search, $options: "i" },
+    });
+
+    const response = {
+      error: null,
+      total,
+      page: page + 1,
+      limit,
+      tasks,
+      categories: categoryOptions,
+      statuses: statusOptions,
+    };
+
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal Server Error" + err });
+  }
 };
 
 // Get a single task
