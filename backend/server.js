@@ -27,11 +27,11 @@ mongoose
       console.log("Connecting to db & listening to port ", port)
     );
   })
-  .catch((err) => console.log(err));
+  .catch((err) => console.log("MongDB connection error: ", err));
 
 // // routes
-const tasksRoutes = require("./routes/tasks");
-app.use("api/tasks", tasksRoutes);
+const tasksRoutes = require("./routes/taskRoute");
+app.use("/api/tasks", tasksRoutes);
 
 // const usersRoutes = require("./routes/users");
-// app.use("api/users", usersRoutes);
+// app.use("/api/users", usersRoutes);

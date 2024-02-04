@@ -4,9 +4,12 @@ const mongoose = require("mongoose");
 // Get all tasks
 const getTasks = async (req, res) => {
   // const user_id = req.user._id;
-  const tasks = await Task
-    // .find({ userId: user_id })
-    .sort({ createdAt: -1 });
+  const tasks = await Task.find({});
+
+  // const tasks = await Task
+  // .find({ userId: user_id })
+  // .sort({ createdAt: -1 });
+
   res.status(200).json(tasks);
 };
 
@@ -27,10 +30,12 @@ const getTask = async (req, res) => {
 
 // Create new task
 const createTask = async (req, res) => {
-  const { title, description, category, dueDate, status } = req.body;
+  const { taskId, title, description, category, dueDate, status } = req.body;
 
   let emptyFields = [];
-
+  if (!taskId) {
+    emptyFields.push("taskId");
+  }
   if (!title) {
     emptyFields.push("title");
   }
@@ -56,6 +61,7 @@ const createTask = async (req, res) => {
   try {
     // const userId = req.user._id;
     const task = await Task.create({
+      taskId,
       title,
       description,
       category,

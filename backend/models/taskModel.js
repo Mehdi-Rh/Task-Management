@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const taskSchema = new Schema(
   {
+    taskId: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
     title: {
       type: String,
       required: true,
