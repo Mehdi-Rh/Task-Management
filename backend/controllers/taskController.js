@@ -8,6 +8,8 @@ const getTasks = async (req, res) => {
     const limit = parseInt(req.query.limit) || 5;
     const search = req.query.search || "";
     let sort = req.query.sort || "taskId";
+    const sortBy = req.query.sortBy || "asc";
+
     let statusIds = req.query.status_ids || "All";
     let categoryIds = req.query.category_ids || "All";
 
@@ -45,15 +47,6 @@ const getTasks = async (req, res) => {
       }
     };
 
-    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
-
-    let sortBy = {};
-    if (sort[1]) {
-      sortBy[sort[0]] = sort[1];
-    } else {
-      sortBy[sort[0]] = "asc";
-    }
-
     console.log({ categories: getStatus(statusIds) });
     // const user_id = req.user._id;
     const tasks = await Task.find({ title: { $regex: search, $options: "i" } })
@@ -61,7 +54,7 @@ const getTasks = async (req, res) => {
       // .in(getCategory(categoryIds))
       // .where("status")
       // .in(getStatus(statusIds))
-      .sort(sortBy)
+      .sort({ [sort]: sortBy })
       .skip(page * limit)
       .limit(limit);
 
