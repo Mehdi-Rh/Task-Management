@@ -48,8 +48,11 @@ const getTasks = async (req, res) => {
     };
 
     console.log({ categories: getStatus(statusIds) });
-    // const user_id = req.user._id;
-    const tasks = await Task.find({ title: { $regex: search, $options: "i" } })
+    const user_id = req.user._id;
+    const tasks = await Task.find({
+      userId: user_id,
+      title: { $regex: search, $options: "i" },
+    })
       // .where("category")
       // .in(getCategory(categoryIds))
       // .where("status")
@@ -58,13 +61,10 @@ const getTasks = async (req, res) => {
       .skip(page * limit)
       .limit(limit);
 
-    // const tasks = await Task
-    // .find({ userId: user_id })
-    // .sort({ createdAt: -1 });
-
     const total = await Task.countDocuments({
       // category: { $in: [...getCategory(categoryIds)] },
       // status: { $in: [...getStatus(statusIds)] },
+      userId: user_id,
       title: { $regex: search, $options: "i" },
     });
 
@@ -131,7 +131,7 @@ const createTask = async (req, res) => {
 
   // add to the database
   try {
-    // const userId = req.user._id;
+    const userId = req.user._id;
     const task = await Task.create({
       taskId,
       title,
@@ -139,7 +139,7 @@ const createTask = async (req, res) => {
       category,
       dueDate,
       status,
-      // userId
+      userId,
     });
     res.status(200).json(task);
   } catch (error) {

@@ -33,5 +33,5 @@ mongoose
 const tasksRoutes = require("./routes/taskRoute");
 app.use("/api/tasks", tasksRoutes);
 
-// const usersRoutes = require("./routes/users");
-// app.use("/api/users", usersRoutes);
+const usersRoutes = require("./routes/userRoute");
+app.use("/api/user", usersRoutes);
