@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 // connect to mongodb
 const dbURI = process.env.MONGO_URI;
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 mongoose
   .connect(dbURI)
   .then(() => {

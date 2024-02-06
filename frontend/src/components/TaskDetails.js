@@ -35,9 +35,7 @@ const TaskDetails = ({ task }) => {
         <strong>Reps: </strong>
         {task.reps}
       </p>
-      <p>
-        {formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}
-      </p>
+      <p>{formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>
         delete
       </span>

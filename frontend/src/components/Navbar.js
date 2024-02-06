@@ -1,23 +1,22 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const Navbar = () => {
-  // const { logout } = useLogout();
-  // const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
 
-  // const handleClick = () => {
-  //   logout();
-  // };
+  const handleClick = () => {
+    logout();
+  };
 
   return (
     <header>
       <div className="container">
         <Link to="/">
-          <h1>Task Management</h1>
+          <h1>Task Buddy</h1>
         </Link>
-        {/* <nav>
+        <nav>
           {user ? (
             <div>
               <span>{user.email}</span>
@@ -29,7 +28,7 @@ const Navbar = () => {
               <Link to="/signup">Signup</Link>
             </div>
           )}
-        </nav> */}
+        </nav>
       </div>
     </header>
   );

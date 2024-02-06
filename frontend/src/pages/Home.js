@@ -29,10 +29,9 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="tasks">
-        {tasks &&
-          tasks.map((task) => <TaskDetails key={task._id} task={task} />)}
-      </div>
+      {/* <div className="tasks">
+        {tasks && tasks.map((task) => <TaskDetails key={task._id} task={task} />)}
+      </div> */}
       <TaskForm />
     </div>
   );
