@@ -1,7 +1,6 @@
 const express = require("express");
-const Task = require("../models/taskModel");
 const router = express.Router();
-const mockTasks = require("../draft/mockData.json");
+
 const {
   createTask,
   getTask,
@@ -10,25 +9,23 @@ const {
   updateTask,
 } = require("../controllers/taskController");
 
+const requireAuth = require("../middleware/requireAuth");
+
+router.use(requireAuth);
+
+// Get all tasks
 router.get("/", getTasks);
+
+// Get a specific task
 router.get("/:id", getTask);
+
+// POST a new task
 router.post("/", createTask);
+
+// Delete a task
 router.delete("/:id", deleteTask);
+
+// Update a task
 router.patch("/:id", updateTask);
-
-// const insertMockData = async () => {
-//   try {
-//     const insertedData = await Task.insertMany(mockTasks);
-//     return Promise.resolve(insertedData);
-//   } catch (error) {
-//     return Promise.reject(error);
-//   }
-// };
-
-// insertMockData()
-//   .then((data) => {
-//     console.log({ data });
-//   })
-//   .catch((error) => console.log({ error }));
 
 module.exports = router;
