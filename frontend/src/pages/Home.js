@@ -33,9 +33,10 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* <div className="tasks">
+      {console.log({ tasks })}
+      <div className="tasks">
         {tasks && tasks.map((task) => <TaskDetails key={task._id} task={task} />)}
-      </div> */}
+      </div>
       <TaskForm />
     </div>
   );

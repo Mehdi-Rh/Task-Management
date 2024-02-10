@@ -26,14 +26,23 @@ const TaskDetails = ({ task }) => {
   };
   return (
     <div className="task-details">
+      <h6>{task.taskId}</h6>
       <h4>{task.title}</h4>
       <p>
-        <strong>Load (kg): </strong>
-        {task.load}
+        <strong>Description: </strong>
+        {task.description}
       </p>
       <p>
-        <strong>Reps: </strong>
-        {task.reps}
+        <strong>Category: </strong>
+        {task.category}
+      </p>
+      <p>
+        <strong>Due Date: </strong>
+        {task.dueDate}
+      </p>
+      <p>
+        <strong>Status: </strong>
+        {task.status}
       </p>
       <p>{formatDistanceToNow(new Date(task.createdAt), { addSuffix: true })}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>
