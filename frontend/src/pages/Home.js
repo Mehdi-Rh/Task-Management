@@ -22,7 +22,11 @@ const Home = () => {
       }
     };
 
+    console.log({ user: user.token });
+
+    // eslint-disable-next-line no-extra-boolean-cast
     if (user) {
+      console.log("fetch: ", user);
       fetchTasks();
     }
   }, [dispatch, user]);

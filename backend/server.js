@@ -30,6 +30,9 @@ mongoose
   .catch((err) => console.log("MongDB connection error: ", err));
 
 // // routes
+app.get("/", (req, res) => {
+  res.json({ message: "WELCOME" });
+});
 const tasksRoutes = require("./routes/taskRoute");
 app.use("/api/tasks", tasksRoutes);
 

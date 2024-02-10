@@ -47,7 +47,7 @@ const getTasks = async (req, res) => {
       }
     };
 
-    console.log({ categories: getStatus(statusIds) });
+    console.log({ user: req.user });
     const user_id = req.user._id;
     const tasks = await Task.find({
       userId: user_id,
