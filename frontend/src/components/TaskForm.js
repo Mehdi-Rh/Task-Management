@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { useTasksContext } from "../hooks/useTasksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const TaskForm = () => {
-  const { dispatch } = useTasksContext();
+  const { categories, statuses, dispatch } = useTasksContext();
+
   const { user } = useAuthContext();
 
   const [taskId, setTaskId] = useState("");
@@ -58,53 +63,85 @@ const TaskForm = () => {
   };
 
   return (
-    <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a New Task</h3>
-      <label>TaskId</label>
-      <input
-        type="text"
-        onChange={(e) => setTaskId(e.target.value)}
-        value={taskId}
-        className={emptyFields?.includes("taskId") ? "error" : ""}
-      />
-      <label>Title</label>
-      <input
-        type="text"
-        onChange={(e) => setTitle(e.target.value)}
-        value={title}
-        className={emptyFields?.includes("title") ? "error" : ""}
-      />
-      <label>Description :</label>
-      <input
-        type="text"
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
-        className={emptyFields?.includes("description") ? "error" : ""}
-      />
-      <label>Category:</label>
-      <input
+    <>
+      {categories && statuses && (
+        <FormControl className="create" onSubmit={handleSubmit}>
+          <h3>Add a New Task</h3>
+          <label>TaskId</label>
+          <input
+            type="text"
+            onChange={(e) => setTaskId(e.target.value)}
+            value={taskId}
+            className={emptyFields?.includes("taskId") ? "error" : ""}
+          />
+          <label>Title</label>
+          <input
+            type="text"
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            className={emptyFields?.includes("title") ? "error" : ""}
+          />
+          <label>Description :</label>
+          <input
+            type="text"
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            className={emptyFields?.includes("description") ? "error" : ""}
+          />
+          <label>Category:</label>
+          {/* <input
         type="text"
         onChange={(e) => setCategory(e.target.value)}
         value={category}
         className={emptyFields?.includes("category") ? "error" : ""}
-      />
-      <label>Due Date:</label>
-      <input
-        type="text"
-        onChange={(e) => setDueDate(e.target.value)}
-        value={dueDate}
-        className={emptyFields?.includes("dueDate") ? "error" : ""}
-      />
-      <label>Status:</label>
-      <input
-        type="text"
-        onChange={(e) => setStatus(e.target.value)}
-        value={status}
-        className={emptyFields?.includes("status") ? "error" : ""}
-      />
-      <button>Add Task</button>
-      {error && <div className="error">{error}</div>}
-    </form>
+      /> */}
+          <InputLabel>Category</InputLabel>
+
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={category}
+            label="Category"
+            onChange={(e) => setCategory(e.target.value)}>
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>
+                {category.value}
+              </MenuItem>
+            ))}
+          </Select>
+
+          <label>Due Date:</label>
+          <input
+            type="text"
+            onChange={(e) => setDueDate(e.target.value)}
+            value={dueDate}
+            className={emptyFields?.includes("dueDate") ? "error" : ""}
+          />
+          <label>Status:</label>
+
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={status}
+            label="Status"
+            onChange={(e) => setStatus(e.target.value)}>
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {statuses.map((status) => (
+              <MenuItem key={status.id} value={status.id}>
+                {status.value}
+              </MenuItem>
+            ))}
+          </Select>
+          <button>Add Task</button>
+          {error && <div className="error">{error}</div>}
+        </FormControl>
+      )}
+    </>
   );
 };
 
