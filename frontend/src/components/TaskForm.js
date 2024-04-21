@@ -65,7 +65,7 @@ const TaskForm = () => {
   return (
     <>
       {categories && statuses && (
-        <FormControl className="create" onSubmit={handleSubmit}>
+        <form className="create" onSubmit={handleSubmit}>
           <h3>Add a New Task</h3>
           <label>TaskId</label>
           <input
@@ -88,30 +88,19 @@ const TaskForm = () => {
             value={description}
             className={emptyFields?.includes("description") ? "error" : ""}
           />
-          <label>Category:</label>
-          {/* <input
-        type="text"
-        onChange={(e) => setCategory(e.target.value)}
-        value={category}
-        className={emptyFields?.includes("category") ? "error" : ""}
-      /> */}
-          <InputLabel>Category</InputLabel>
+          <label htmlFor="category">Category :</label>
 
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={category}
-            label="Category"
-            onChange={(e) => setCategory(e.target.value)}>
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
+          <select
+            name="categories"
+            id="categories"
+            onChange={(e) => setCategory(e.target.value)}
+            className={emptyFields?.includes("category") ? "error" : ""}>
             {categories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
+              <option key={category.id} value={category.id}>
                 {category.value}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
+          </select>
 
           <label>Due Date:</label>
           <input
@@ -120,26 +109,22 @@ const TaskForm = () => {
             value={dueDate}
             className={emptyFields?.includes("dueDate") ? "error" : ""}
           />
-          <label>Status:</label>
+          <label htmlFor="status">Status :</label>
 
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={status}
-            label="Status"
-            onChange={(e) => setStatus(e.target.value)}>
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
+          <select
+            name="status"
+            id="status"
+            onChange={(e) => setStatus(e.target.value)}
+            className={emptyFields?.includes("status") ? "error" : ""}>
             {statuses.map((status) => (
-              <MenuItem key={status.id} value={status.id}>
+              <option key={status.id} value={status.id}>
                 {status.value}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
-          <button>Add Task</button>
+          </select>
+          <button type="submit">Add Task</button>
           {error && <div className="error">{error}</div>}
-        </FormControl>
+        </form>
       )}
     </>
   );
