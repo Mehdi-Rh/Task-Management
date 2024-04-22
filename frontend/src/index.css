@@ -99,7 +99,8 @@ div.error {
   border-radius: 4px;
   margin: 20px 0;
 }
-input.error {
+input.error,
+select.error {
   border: 1px solid var(--error);
 }
 

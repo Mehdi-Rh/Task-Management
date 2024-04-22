@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+
 import { useTasksContext } from "../hooks/useTasksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -28,15 +25,7 @@ const TaskForm = () => {
       return;
     }
 
-    function getRandomFutureDate() {
-      const randomDays = Math.floor(Math.random() * 10) + 1; // Random number between 1 and 30
-      const currentDate = new Date();
-      currentDate.setDate(currentDate.getDate() + 5);
-
-      return currentDate;
-    }
-    const mockDueDate = getRandomFutureDate();
-    const task = { taskId, title, description, category, dueDate: mockDueDate, status };
+    const task = { taskId, title, description, category, dueDate, status };
     const response = await fetch("/api/tasks", {
       method: "POST",
       body: JSON.stringify(task),
@@ -70,21 +59,30 @@ const TaskForm = () => {
           <label>TaskId</label>
           <input
             type="text"
-            onChange={(e) => setTaskId(e.target.value)}
+            onChange={(e) => {
+              setEmptyFields((prev) => prev.filter((item) => item != "taskId"));
+              setTaskId(e.target.value);
+            }}
             value={taskId}
             className={emptyFields?.includes("taskId") ? "error" : ""}
           />
           <label>Title</label>
           <input
             type="text"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setEmptyFields((prev) => prev.filter((item) => item != "title"));
+              setTitle(e.target.value);
+            }}
             value={title}
             className={emptyFields?.includes("title") ? "error" : ""}
           />
           <label>Description :</label>
           <input
             type="text"
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => {
+              setEmptyFields((prev) => prev.filter((item) => item != "description"));
+              setDescription(e.target.value);
+            }}
             value={description}
             className={emptyFields?.includes("description") ? "error" : ""}
           />
@@ -93,8 +91,16 @@ const TaskForm = () => {
           <select
             name="categories"
             id="categories"
-            onChange={(e) => setCategory(e.target.value)}
+            defaultValue={"DEFAULT"}
+            onChange={(e) => {
+              setEmptyFields((prev) => prev.filter((item) => item != "category"));
+              setCategory(e.target.value);
+            }}
             className={emptyFields?.includes("category") ? "error" : ""}>
+            <option value="DEFAULT" disabled hidden>
+              Choose category
+            </option>
+
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.value}
@@ -104,8 +110,11 @@ const TaskForm = () => {
 
           <label>Due Date:</label>
           <input
-            type="text"
-            onChange={(e) => setDueDate(e.target.value)}
+            type="datetime-local"
+            onChange={(e) => {
+              setEmptyFields((prev) => prev.filter((item) => item != "dueDate"));
+              setDueDate(e.target.value);
+            }}
             value={dueDate}
             className={emptyFields?.includes("dueDate") ? "error" : ""}
           />
@@ -114,8 +123,12 @@ const TaskForm = () => {
           <select
             name="status"
             id="status"
+            defaultValue={"DEFAULT"}
             onChange={(e) => setStatus(e.target.value)}
             className={emptyFields?.includes("status") ? "error" : ""}>
+            <option value="DEFAULT" disabled hidden>
+              Choose status
+            </option>
             {statuses.map((status) => (
               <option key={status.id} value={status.id}>
                 {status.value}
