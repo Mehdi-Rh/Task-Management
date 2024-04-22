@@ -22,18 +22,14 @@ const Home = () => {
       }
     };
 
-    console.log({ user: user.token });
-
     // eslint-disable-next-line no-extra-boolean-cast
     if (user) {
-      console.log("fetch: ", user);
       fetchTasks();
     }
   }, [dispatch, user]);
 
   return (
     <div className="home">
-      {console.log({ tasks })}
       <div className="tasks">
         {tasks && tasks.map((task) => <TaskDetails key={task._id} task={task} />)}
       </div>

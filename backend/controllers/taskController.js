@@ -47,7 +47,6 @@ const getTasks = async (req, res) => {
       }
     };
 
-    console.log({ user: req.user });
     const user_id = req.user._id;
     const tasks = await Task.find({
       userId: user_id,
@@ -80,7 +79,7 @@ const getTasks = async (req, res) => {
 
     res.status(200).json(response);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ error: "Internal Server Error" + err });
   }
 };
