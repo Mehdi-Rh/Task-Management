@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useTasksContext } from "../hooks/useTasksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -50,6 +50,10 @@ const TaskForm = () => {
       dispatch({ type: "CREATE_TASK", payload: json });
     }
   };
+
+  useEffect(() => {
+    if (emptyFields.length == 0 && error == "Please fill in all fields") setError("");
+  }, [emptyFields]);
 
   return (
     <>
@@ -124,7 +128,10 @@ const TaskForm = () => {
             name="status"
             id="status"
             defaultValue={"DEFAULT"}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(e) => {
+              setEmptyFields((prev) => prev.filter((item) => item != "status"));
+              setStatus(e.target.value);
+            }}
             className={emptyFields?.includes("status") ? "error" : ""}>
             <option value="DEFAULT" disabled hidden>
               Choose status
