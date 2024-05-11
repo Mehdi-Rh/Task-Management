@@ -33,11 +33,45 @@ header a {
 }
 
 /* homepage */
-.home {
+
+#myInput {
+  background-image: url("https://www.w3schools.com/css/searchicon.png");
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th,
+#myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.tableHeader,
+#myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* .home {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 100px;
-}
+} */
 .task-details {
   background: #fff;
   border-radius: 4px;
@@ -77,16 +111,19 @@ select {
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
-  width: 100%;
+  /* width: 100%; */
   border: 1px solid #ddd;
   border-radius: 4px;
   box-sizing: border-box;
 }
-form button {
+button {
   background: var(--primary);
   border: 0;
   color: #fff;
   padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  text-wrap: nowrap;
   font-family: "Poppins";
   border-radius: 4px;
   cursor: pointer;

@@ -4,7 +4,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 // components
 import TaskDetails from "../components/TaskDetails";
-import TaskForm from "../components/TaskForm";
+import TasksTable from "../components/TasksTable";
+import AddTaskModal from "./AddTaskModal";
 
 const Home = () => {
   const { tasks, dispatch } = useTasksContext();
@@ -13,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       const response = await fetch("/api/tasks", {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${user.token}` }
       });
       const json = await response.json();
 
@@ -30,10 +31,17 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="tasks">
-        {tasks && tasks.map((task) => <TaskDetails key={task._id} task={task} />)}
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <input
+          type="text"
+          id="myInput"
+          onKeyUp={(e) => console.log(e.target.value)}
+          placeholder="Search for names.."
+          title="Type in a name"
+        />
+        <AddTaskModal />
       </div>
-      <TaskForm />
+      <TasksTable />
     </div>
   );
 };

@@ -14,35 +14,35 @@ const getTasks = async (req, res) => {
     let categoryIds = req.query.category_ids || "All";
 
     const categoryOptions = [
-      { id: "work", value: "Work" },
-      { id: "personal", value: "Personal" },
-      { id: "shopping", value: "Shopping" },
-      { id: "home", value: "Home" },
-      { id: "other", value: "Other" },
+      { id: "work", label: "Work" },
+      { id: "personal", label: "Personal" },
+      { id: "shopping", label: "Shopping" },
+      { id: "home", label: "Home" },
+      { id: "other", label: "Other" },
     ];
 
     const statusOptions = [
-      { id: "todo", value: "To Do" },
-      { id: "inprogress", value: "In Progress" },
-      { id: "completed", value: "Completed" },
+      { id: "todo", label: "To Do" },
+      { id: "inprogress", label: "In Progress" },
+      { id: "completed", label: "Completed" },
     ];
 
     const getCategory = (categoryIds) => {
       if (categoryIds === "All") {
-        return categoryOptions.map((category) => category.value);
+        return categoryOptions.map((category) => category.label);
       } else {
         const categories = categoryIds.split(",").map((id) => {
-          return categoryOptions.find((category) => category.id === id).value;
+          return categoryOptions.find((category) => category.id === id).label;
         });
       }
     };
 
     const getStatus = (statusIds) => {
       if (statusIds === "All") {
-        return statusOptions.map((status) => status.value);
+        return statusOptions.map((status) => status.label);
       } else {
         const statuses = statusIds.split(",").map((id) => {
-          return statusOptions.find((status) => status.id === id).value;
+          return statusOptions.find((status) => status.id === id).label;
         });
       }
     };

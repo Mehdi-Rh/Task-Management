@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useTasksContext } from "../hooks/useTasksContext";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const TaskForm = () => {
+const TaskForm = ({ handleClose }) => {
   const { categories, statuses, dispatch } = useTasksContext();
 
   const { user } = useAuthContext();
@@ -31,8 +31,8 @@ const TaskForm = () => {
       body: JSON.stringify(task),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
+        Authorization: `Bearer ${user.token}`
+      }
     });
     const json = await response.json();
 
@@ -49,6 +49,7 @@ const TaskForm = () => {
       setStatus("");
       dispatch({ type: "CREATE_TASK", payload: json });
     }
+    handleClose();
   };
 
   useEffect(() => {
@@ -91,7 +92,6 @@ const TaskForm = () => {
             className={emptyFields?.includes("description") ? "error" : ""}
           />
           <label htmlFor="category">Category :</label>
-
           <select
             name="categories"
             id="categories"
@@ -100,18 +100,18 @@ const TaskForm = () => {
               setEmptyFields((prev) => prev.filter((item) => item != "category"));
               setCategory(e.target.value);
             }}
-            className={emptyFields?.includes("category") ? "error" : ""}>
+            className={emptyFields?.includes("category") ? "error" : ""}
+          >
             <option value="DEFAULT" disabled hidden>
               Choose category
             </option>
 
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
-                {category.value}
+                {category.label}
               </option>
             ))}
           </select>
-
           <label>Due Date:</label>
           <input
             type="datetime-local"
@@ -123,7 +123,6 @@ const TaskForm = () => {
             className={emptyFields?.includes("dueDate") ? "error" : ""}
           />
           <label htmlFor="status">Status :</label>
-
           <select
             name="status"
             id="status"
@@ -132,17 +131,23 @@ const TaskForm = () => {
               setEmptyFields((prev) => prev.filter((item) => item != "status"));
               setStatus(e.target.value);
             }}
-            className={emptyFields?.includes("status") ? "error" : ""}>
+            className={emptyFields?.includes("status") ? "error" : ""}
+          >
             <option value="DEFAULT" disabled hidden>
               Choose status
             </option>
             {statuses.map((status) => (
               <option key={status.id} value={status.id}>
-                {status.value}
+                {status.label}
               </option>
             ))}
-          </select>
-          <button type="submit">Add Task</button>
+          </select>{" "}
+          <button
+            style={{ display: "flex", justifyContent: "center", width: "100%" }}
+            type="submit"
+          >
+            Add Task
+          </button>
           {error && <div className="error">{error}</div>}
         </form>
       )}
